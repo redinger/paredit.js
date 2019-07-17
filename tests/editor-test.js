@@ -328,6 +328,14 @@ describe('paredit editor', function() {
       .transforms('delete range inside string', '"f|oo"->"f|"')
       .withChanges([['remove', 2, 2]]);
 
+    edit("delete",{backward: true})
+      .transforms('don\'t delete initial quotes', '"|foo"->"|foo"')
+      .withChanges([]);
+
+    edit("delete",{backward: false})
+      .transforms('don\'t delete ending quotes', '"foo|"->"foo|"')
+      .withChanges([]);
+
     edit("delete",{backward: true, endIdx: 12})
       .transforms('deletes entire sexps when no overlap', "(foo| bar baz)->(foo|)")
       .withChanges([['remove', 4, 8]]);
