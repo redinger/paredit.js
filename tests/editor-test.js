@@ -364,6 +364,14 @@ describe('paredit editor', function() {
       .transforms("delete including space", "|a  b->| b")
       .withChanges([['remove', 0, 2]]);
 
+    edit("delete",{backward: false, endIdx: 4})
+      .transforms("delete including trailing whitespace", "|a   ->")
+      .withChanges([['remove', 0, 4]]);
+
+    edit("delete",{backward: true, endIdx: 4})
+      .transforms("delete including leading whitespace", "   a|  ->")
+      .withChanges([['remove', 4, 0]]);
+
     describe("with errors", function() {
       edit("delete",{backward: true})
         .transforms("allow simple delete", "fo(|o->fo|o")
